@@ -88,6 +88,6 @@ describe('Cleaner Service', () => {
                 "parent_id": null
         }];
         const response = clean(dataToClean);
-        expect(response).toBe(responseExepected);
+        expect(response).toEqual(responseExepected);
     });
 });
