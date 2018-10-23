@@ -15,7 +15,8 @@ class CleanerContainer extends Component {
 
     cleanData = (event) => {
         const data = clean(event.target.value);
-        this.setState({resultData: data});
+        const result = (typeof data === 'object') ? JSON.stringify(data, null, ' ') : data;
+        this.setState({resultData: result});
     }
 
 
