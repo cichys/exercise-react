@@ -18,12 +18,19 @@ describe('Cleaner component', () => {
         const wrapper = shallow(<Cleaner />);
         const textareaOutput = wrapper.find('textarea').at(1);
         expect(textareaOutput.props().readOnly).toEqual(true);
-    })
+    });
 
     it('renders response in textarea', () => {
         const wrapper = shallow(<Cleaner result={'[{"id":10,"title":"House"}]'} />);
         const textareaOutput = wrapper.find('textarea').at(1);
         expect(textareaOutput.props().value).toEqual("[{\"id\":10,\"title\":\"House\"}]");
+    });
+
+    xit('triggers event on textarea change', () => {
+        const wrapper = shallow(<Cleaner />);
+        const spy = jest.spyOn(wrapper.props(), 'onChangeJSON')
+        const textareaInput = wrapper.find('textarea').at(0);
+        textareaInput.simulate('change', {target: {value: 'New value'}});
     });
 });
 
