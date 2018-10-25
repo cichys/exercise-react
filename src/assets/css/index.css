@@ -1,3 +1,7 @@
+* {
+    box-sizing: border-box;
+}
+
 body {
     margin: 0;
     padding: 0;
@@ -16,4 +20,22 @@ code {
 
 textarea {
     background: white;
+    border: 1px solid gray;
+    padding: 10px;
+    font-size: 12px;
+    color: gray;
+}
+
+
+.cleaner {
+    width: 1050px;
+    margin: 0 auto;
+}
+
+.cleaner textarea {
+    float: left;
+    width: 500px;
+    height: 700px;
+    margin-right: 10px;
+    resize: none;
 }
