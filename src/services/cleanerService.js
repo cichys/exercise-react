@@ -22,7 +22,10 @@ const functionByLevel = {
         results.push(item);
     },
     1: (item, results) => {
-        results.find(o => o.id === item.parent_id).children.push(item);
+        const parent = results.find(o => o.id === item.parent_id);
+        if (parent) {
+            parent.children.push(item)
+        }
     },
     2: (item, results) => {
         results.forEach(o => {

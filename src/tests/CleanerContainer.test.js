@@ -1,9 +1,11 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { shallow } from 'enzyme';
+
 import CleanerContainer from '../containers/CleanerContainer';
 
-it('renders without crashing', () => {
-    const div = document.createElement('div');
-    ReactDOM.render(<CleanerContainer />, div);
-    ReactDOM.unmountComponentAtNode(div);
+
+describe('Cleaner container', () => {
+    it('renders without crashing', () => {
+        shallow(<CleanerContainer />);
+    });
 });
