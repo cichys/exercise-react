@@ -28,7 +28,7 @@ class GithubData extends Component {
 
 
     render() {
-        if (this.props.data.length === 0) {
+        if (!this.props.data || this.props.data.length === 0) {
             return null;
         }
 

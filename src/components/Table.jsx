@@ -28,16 +28,18 @@ class Table extends Component {
 
 
     render() {
-        if (this.props.data.length === 0) {
+        if (!this.props.data || this.props.data.length === 0) {
             return null;
         }
 
         return (
             <table cellPadding="0" cellSpacing="0">
-                <tbody>
+                <thead>
                     <tr>
                         {this.renderTableHeaders()}
                     </tr>
+                </thead>
+                <tbody>
                     {this.renderRows()}
                 </tbody>
             </table>
