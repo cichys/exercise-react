@@ -3,7 +3,6 @@ import React, { Component } from 'react';
 import getGithubRepos from '../services/githubService';
 import GithubData from '../components/GithubData';
 
-
 class GithubContainer extends Component {
 
     since = 1;
@@ -42,12 +41,12 @@ class GithubContainer extends Component {
         this.currentPage++;
         this.since = this.state.data[this.state.data.length - 1].id;
         this.getData();
-    }
+    }   
 
 
     getData = () => {
-        getGithubRepos(this.since, (response) => {
-            this.setState({data: response});
+        getGithubRepos(this.since).then(response => {
+            this.setState({data: response.data});
         });
     }
 
