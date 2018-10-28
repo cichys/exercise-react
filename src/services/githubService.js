@@ -1,6 +1,7 @@
 
-function getGithubRepos(cb, cbError) {
-    return fetch('https://api.github.com/repositories', {
+function getGithubRepos(since, cb, cbError) {
+    const params = since ? `?since=${since}` : '';
+    return fetch(`https://api.github.com/repositories${params}`, {
         method: 'GET',
         headers: new Headers({
             'Content-Type': 'application/json'

@@ -17,16 +17,31 @@ class GithubData extends Component {
     ];
 
 
+    previousPage = () => {
+        this.props.previousPage();
+    }
+
+
+    nextPage = () => {
+        this.props.nextPage();
+    }
+
+
     render() {
         if (this.props.data.length === 0) {
             return null;
         }
 
         return (
-            <Table 
-                data={this.props.data} 
-                columns={this.dataToDisplay} 
-            />
+            <div>
+                <Table 
+                    data={this.props.data} 
+                    columns={this.dataToDisplay} 
+                />
+                <button type="button" onClick={this.previousPage}>Previous page</button>
+                <button type="button" onClick={this.nextPage}>Next page</button>
+            </div>
+            
         );
     }
 }
