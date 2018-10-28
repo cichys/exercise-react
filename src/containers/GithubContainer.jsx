@@ -27,12 +27,21 @@ class GithubContainer extends Component {
 
 
     previousPage = () => {
-        if (this.currentPage === 1) {
+        if (!this.state.data || this.state.data.length === 0) {
             return;
         }
-        this.currentPage--;
-        this.since = this.previousSinceByPage[this.currentPage - 1];
-        this.getData();
+
+        if (this.currentPage === 1 && this.currentApiPage > 1) {
+            this.currentPage = this.itemsPerPage;
+            this.currentApiPage--;
+            this.previousSinceByPage[this.currentApiPage] = this.since;
+            this.since = this.previousSinceByPage[this.currentApiPage - 1];
+            this.getData(false);
+        } else if (this.currentPage > 1) {
+            this.currentPage--;
+            const sliceFrom = (this.currentPage - 1) * this.itemsPerPage;
+            this.saveStateData(sliceFrom);
+        }
     }
 
 
@@ -40,7 +49,8 @@ class GithubContainer extends Component {
         if (!this.state.data || this.state.data.length === 0) {
             return;
         }
-        if (this.currentPage % this.itemsPerPage === 0) {
+
+        if (this.currentPage === this.itemsPerPage) {
             this.currentPage = 1;
             this.previousSinceByPage[this.currentApiPage - 1] = this.since;
             this.currentApiPage++;
@@ -49,17 +59,24 @@ class GithubContainer extends Component {
         } else {
             this.currentPage++;
             const sliceFrom = (this.currentPage - 1) * this.itemsPerPage;
-            this.setState({
-                data: this.responseData.slice(sliceFrom, sliceFrom + this.itemsPerPage)
-            });
+            this.saveStateData(sliceFrom);
         }
     }
 
 
-    getData = () => {
+    getData = (first = true) => {
         getGithubRepos(this.since).then(response => {
-            this.setState({data: response.data.slice(0, 10)});
             this.responseData = response.data;
+
+            const sliceFrom = first ? 0 : 90;
+            this.saveStateData(sliceFrom);
+        });
+    }
+
+
+    saveStateData = (from) => {
+        this.setState({
+            data: this.responseData.slice(from, from + this.itemsPerPage)
         });
     }
 
