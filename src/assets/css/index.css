@@ -39,3 +39,9 @@ textarea {
     margin-right: 10px;
     resize: none;
 }
+
+
+table {
+    font-size: 12px;
+    color: #333;
+}
