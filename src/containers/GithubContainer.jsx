@@ -8,6 +8,9 @@ class GithubContainer extends Component {
     since = 1;
     previousSinceByPage = [this.since];
     currentPage = 1;
+    currentApiPage = 1;
+    responseData = null;
+    itemsPerPage = 10;
 
 
     constructor(props) {
@@ -34,19 +37,29 @@ class GithubContainer extends Component {
 
 
     nextPage = () => {
-        if (!this.state.data || this.state.data.length === 0 || this.state.data.length < 100) {
+        if (!this.state.data || this.state.data.length === 0) {
             return;
         }
-        this.previousSinceByPage[this.currentPage - 1] = this.since;
-        this.currentPage++;
-        this.since = this.state.data[this.state.data.length - 1].id;
-        this.getData();
-    }   
+        if (this.currentPage % this.itemsPerPage === 0) {
+            this.currentPage = 1;
+            this.previousSinceByPage[this.currentApiPage - 1] = this.since;
+            this.currentApiPage++;
+            this.since = this.responseData[this.responseData.length - 1].id;
+            this.getData();
+        } else {
+            this.currentPage++;
+            const sliceFrom = (this.currentPage - 1) * this.itemsPerPage;
+            this.setState({
+                data: this.responseData.slice(sliceFrom, sliceFrom + this.itemsPerPage)
+            });
+        }
+    }
 
 
     getData = () => {
         getGithubRepos(this.since).then(response => {
-            this.setState({data: response.data});
+            this.setState({data: response.data.slice(0, 10)});
+            this.responseData = response.data;
         });
     }
 
