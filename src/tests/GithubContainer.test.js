@@ -30,24 +30,30 @@ describe('Github Container component', () => {
     it('save data in state', (done) => {
         const wrapper = shallow(<GithubContainer />);
         setTimeout(o => {
-            expect(wrapper.state('data').length).toEqual(100);
+            expect(wrapper.instance().responseData.length).toEqual(100);
+            expect(wrapper.state('data').length).toEqual(10);
             done();
         }, 100);
     });
 
 
-    it('call github api with parameter "since" at 1', () => {
+    it('call github api with parameter "since" at 1', (done) => {
         let spy = jest.spyOn(axios, "get");
         shallow(<GithubContainer />);
-        expect(spy).toHaveBeenCalledWith('https://api.github.com/repositories?since=1', expect.anything());
+        setTimeout(o => {
+            expect(spy).toHaveBeenCalledWith('https://api.github.com/repositories?since=1', expect.anything());
+            done();
+        }, 100);
     });
 
 
-    it('call github api on next page with correct parameter "since"', (done) => {
+    it('call github api on 10th page with correct parameter "since"', (done) => {
         let spy = jest.spyOn(axios, "get");
         const wrapper = shallow(<GithubContainer />);
         setTimeout(o => {
-            wrapper.instance().nextPage();
+            paginateNextFor(wrapper, 9);
+            expect(spy).not.toHaveBeenCalledWith('https://api.github.com/repositories?since=370', expect.anything());
+            paginateNextFor(wrapper, 1);
             expect(spy).toHaveBeenCalledWith('https://api.github.com/repositories?since=370', expect.anything());
             done();
         }, 100);
@@ -58,12 +64,43 @@ describe('Github Container component', () => {
         let spy = jest.spyOn(axios, "get");
         const wrapper = shallow(<GithubContainer />);
         setTimeout(o => {
-            wrapper.instance().nextPage();
+            paginateNextFor(wrapper, 10);
             expect(spy).toHaveBeenCalledWith('https://api.github.com/repositories?since=370', expect.anything());
-            wrapper.instance().previousPage();
+            paginatePrevFor(wrapper, 1);
             expect(spy).toHaveBeenCalledWith('https://api.github.com/repositories?since=1', expect.anything());
             done();
         }, 100);
     });
+
+
+    it('paginate internally for first 10 pages', (done) => {
+        const wrapper = shallow(<GithubContainer />);
+        setTimeout(o => {
+            expect(wrapper.instance().state.data[0].full_name).toEqual('wycats/merb-core');
+            paginateNextFor(wrapper, 1);
+            expect(wrapper.instance().state.data.length).toEqual(10);
+            expect(wrapper.instance().state.data[0].full_name).toEqual('anotherjesse/s3');
+            paginateNextFor(wrapper, 1);
+            expect(wrapper.instance().state.data.length).toEqual(10);
+            expect(wrapper.instance().state.data[0].full_name).toEqual('jamesgolick/enum_field');
+            paginatePrevFor(wrapper, 1);
+            expect(wrapper.instance().state.data.length).toEqual(10);
+            expect(wrapper.instance().state.data[0].full_name).toEqual('anotherjesse/s3');
+            done();
+        }, 100);
+    })
 });
 
+
+const paginateNextFor = (wrapper, times) => {
+    for (let i = 0; i < times; i++) {
+        wrapper.instance().nextPage();
+    }
+}
+
+
+const paginatePrevFor = (wrapper, times) => {
+    for (let i = 0; i < times; i++) {
+        wrapper.instance().previousPage();
+    }
+}

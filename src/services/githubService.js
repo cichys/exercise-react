@@ -3,8 +3,7 @@ import axios from 'axios';
 function getGithubRepos(since) {
     const params = since ? `?since=${since}` : '';
 
-    return axios(`https://api.github.com/repositories${params}`, {
-        method: 'get',
+    return axios.get(`https://api.github.com/repositories${params}`, {
         // auth: {
         //     username: '',
         //     password: ''
