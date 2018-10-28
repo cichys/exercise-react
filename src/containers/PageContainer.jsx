@@ -35,7 +35,9 @@ class PageContainer extends Component {
                     <button onClick={() => this.changePage('cleaner')}>Cleaner</button>
                     <button onClick={() => this.changePage('github')}>Github API</button>
                 </header>
-                {this.renderPage()}
+                <main>
+                    {this.renderPage()}
+                </main>
             </div>
             
         );

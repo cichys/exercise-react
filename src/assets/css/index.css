@@ -18,6 +18,32 @@ code {
 }
 
 
+header {
+    width: 100%;
+    height: 40px;
+    background: #666;
+    text-align: center;
+    position: fixed;
+}
+
+header button {
+    background: none;
+    color: white;
+    font-size: 15px;
+    margin-top: 10px;
+    border: 0;
+    cursor: pointer;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+    sans-serif;
+}
+
+
+main {
+    padding-top: 60px;
+}
+
+
 textarea {
     background: white;
     border: 1px solid gray;
@@ -44,4 +70,38 @@ textarea {
 table {
     font-size: 12px;
     color: #333;
+    width: 80%;
+    margin: 0 auto;
+}
+table tr th {
+    background: #666;
+    color: white;
+    padding: 5px;
+    text-align: left;
+}
+table tr td {
+    border-bottom: 1px solid #ccc;
+    padding: 5px;
+}
+
+.pagination {
+    width: 200px;
+    margin: 0 auto;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+.pagination button {
+    width: 80px;
+    background: #666;
+    font-size: 12px;
+    color: white;
+    padding: 5px;
+    border: 0;
+    cursor: pointer;
+    border-radius: 5px;
+    margin: 0 5px 0 5px;
+}
+.pagination button.disabled {
+    opacity: 0.5;
+    cursor: default;
 }

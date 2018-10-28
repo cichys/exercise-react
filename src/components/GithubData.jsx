@@ -38,10 +38,11 @@ class GithubData extends Component {
                     data={this.props.data} 
                     columns={this.dataToDisplay} 
                 />
-                <button type="button" onClick={this.previousPage}>Previous page</button>
-                <button type="button" onClick={this.nextPage}>Next page</button>
+                <div className="pagination">
+                    <button type="button" onClick={this.previousPage}>&lt; Previous</button>
+                    <button type="button" onClick={this.nextPage}>Next &gt;</button>
+                </div>
             </div>
-            
         );
     }
 }
